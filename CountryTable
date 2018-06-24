@@ -1,0 +1,19 @@
+CREATE TABLE "MeetInterest".tb_country
+(
+    id integer NOT NULL DEFAULT nextval('"MeetInterest".tb_country_id_seq'::regclass),
+    iso character varying(2) COLLATE pg_catalog."default" NOT NULL,
+    name character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    nicename character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    iso3 character varying(3) COLLATE pg_catalog."default",
+    numcode smallint NOT NULL,
+    phonecode integer NOT NULL,
+    CONSTRAINT tb_country_pkey PRIMARY KEY (id),
+    CONSTRAINT country_id_unique UNIQUE (id)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE "MeetInterest".tb_country
+    OWNER to postgres;
