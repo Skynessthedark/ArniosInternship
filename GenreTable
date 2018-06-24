@@ -1,0 +1,18 @@
+CREATE TABLE "MeetInterest".tb_int_genre
+(
+    genre_id integer NOT NULL DEFAULT nextval('"MeetInterest".tb_int_genre_genre_id_seq'::regclass),
+    genre_name character varying COLLATE pg_catalog."default" NOT NULL,
+    genre_own_id integer NOT NULL,
+    CONSTRAINT u_genre_id PRIMARY KEY (genre_id),
+    CONSTRAINT fk_genre_own_id FOREIGN KEY (genre_own_id)
+        REFERENCES "MeetInterest".tb_interest (interest_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE "MeetInterest".tb_int_genre
+    OWNER to postgres;
