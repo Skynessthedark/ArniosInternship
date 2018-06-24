@@ -1,0 +1,30 @@
+CREATE TABLE "MeetInterest".tb_images
+(
+    img_id bigint NOT NULL DEFAULT nextval('"MeetInterest".tb_images_img_id_seq'::regclass),
+    img_byte bytea NOT NULL,
+    user_id integer NOT NULL,
+    CONSTRAINT tb_images_pkey PRIMARY KEY (img_id),
+    CONSTRAINT img_uniques UNIQUE (img_id, user_id),
+    CONSTRAINT fk_user_id FOREIGN KEY (user_id)
+        REFERENCES "MeetInterest".tb_useraccount (user_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE "MeetInterest".tb_images
+    OWNER to postgres;
+COMMENT ON TABLE "MeetInterest".tb_images
+    IS 'image ler direkt bu tabloya yüklensin. user_id o an yükleyen kişinin id sini alsın. yüklenen image e atanan id useraccount tablosuna gönderilsin.';
+
+-- Index: fki_fk_user_id
+
+-- DROP INDEX "MeetInterest".fki_fk_user_id;
+
+CREATE INDEX fki_fk_user_id
+    ON "MeetInterest".tb_images USING btree
+    (user_id)
+    TABLESPACE pg_default;
