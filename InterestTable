@@ -1,0 +1,14 @@
+CREATE TABLE "MeetInterest".tb_interest
+(
+    interest_id integer NOT NULL DEFAULT nextval('"MeetInterest".tb_interest_interest_id_seq'::regclass),
+    interest_name character varying COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT tb_interest_pkey PRIMARY KEY (interest_id),
+    CONSTRAINT interest_id_unique UNIQUE (interest_id)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE "MeetInterest".tb_interest
+    OWNER to postgres;
