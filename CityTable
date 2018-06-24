@@ -1,0 +1,21 @@
+CREATE TABLE "MeetInterest".tb_cities
+(
+    city_id bigint NOT NULL DEFAULT nextval('"MeetInterest".tb_cities_city_id_seq'::regclass),
+    city_name character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    country_id integer NOT NULL,
+    CONSTRAINT tb_cities_pkey PRIMARY KEY (city_id),
+    CONSTRAINT unique_city_id UNIQUE (city_id),
+    CONSTRAINT fk_country_id FOREIGN KEY (country_id)
+        REFERENCES "MeetInterest".tb_country (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE "MeetInterest".tb_cities
+    OWNER to postgres;
+COMMENT ON TABLE "MeetInterest".tb_cities
+    IS 'şehirler ülkelerin idsini alacaklar. ';
