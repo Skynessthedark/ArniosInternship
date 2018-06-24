@@ -1,0 +1,62 @@
+CREATE TABLE "MeetInterest".tb_useraccount
+(
+    user_name character varying(20)[] COLLATE pg_catalog."default" NOT NULL,
+    name character varying(20)[] COLLATE pg_catalog."default",
+    surname character varying(20)[] COLLATE pg_catalog."default",
+    dateofcreation date NOT NULL,
+    birthdate date,
+    phone character varying(11)[] COLLATE pg_catalog."default",
+    email character varying(35)[] COLLATE pg_catalog."default" NOT NULL,
+    rating real NOT NULL,
+    user_id integer NOT NULL DEFAULT nextval('"MeetInterest".tb_useraccount_user_id_seq'::regclass),
+    user_password character varying(15) COLLATE pg_catalog."default" NOT NULL,
+    user_photo integer,
+    chat_id integer,
+    country integer NOT NULL,
+    city integer,
+    interest_id integer,
+    CONSTRAINT pk_user_id PRIMARY KEY (user_id),
+    CONSTRAINT user_email_unique UNIQUE (email),
+    CONSTRAINT user_id_unique UNIQUE (user_id),
+    CONSTRAINT user_name_unique UNIQUE (user_name),
+    CONSTRAINT user_phone_unique UNIQUE (phone),
+    CONSTRAINT user_photo_u UNIQUE (user_photo),
+    CONSTRAINT fk_chat_id FOREIGN KEY (chat_id)
+        REFERENCES "MeetInterest".tb_chat (chat_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fk_city_id FOREIGN KEY (city)
+        REFERENCES "MeetInterest".tb_cities (city_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fk_country_id FOREIGN KEY (country)
+        REFERENCES "MeetInterest".tb_country (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fk_interest_id FOREIGN KEY (interest_id)
+        REFERENCES "MeetInterest".tb_interest (interest_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fk_user_photo FOREIGN KEY (user_photo)
+        REFERENCES "MeetInterest".tb_images (img_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE "MeetInterest".tb_useraccount
+    OWNER to postgres;
+COMMENT ON TABLE "MeetInterest".tb_useraccount
+    IS 'Kullanıcı hesap bilgileri burada tutulacak.';
+
+-- Index: fki_chat_id
+
+-- DROP INDEX "MeetInterest".fki_chat_id;
+
+CREATE INDEX fki_chat_id
+    ON "MeetInterest".tb_useraccount USING btree
+    (chat_id)
+    TABLESPACE pg_default;
