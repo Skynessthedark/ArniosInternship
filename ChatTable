@@ -1,0 +1,32 @@
+
+CREATE TABLE "MeetInterest".tb_chat
+(
+    chat_id integer NOT NULL DEFAULT nextval('"MeetInterest".tb_chat_chat_id_seq'::regclass),
+    chat_time timestamp with time zone NOT NULL,
+    message text COLLATE pg_catalog."default",
+    chat_user_id integer NOT NULL,
+    CONSTRAINT chat_id_u UNIQUE (chat_id),
+    CONSTRAINT chat_user_id FOREIGN KEY (chat_user_id)
+        REFERENCES "MeetInterest".tb_useraccount (user_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE "MeetInterest".tb_chat
+    OWNER to postgres;
+
+COMMENT ON COLUMN "MeetInterest".tb_chat.chat_user_id
+    IS 'Konuştuğumuz kişi.';
+
+-- Index: fki_chat_user_id
+
+-- DROP INDEX "MeetInterest".fki_chat_user_id;
+
+CREATE INDEX fki_chat_user_id
+    ON "MeetInterest".tb_chat USING btree
+    (chat_user_id)
+    TABLESPACE pg_default;
